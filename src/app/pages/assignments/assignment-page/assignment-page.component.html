@@ -1,1 +1,27 @@
-<p>assignment-page works!</p>
+<div class="assignment-page">
+  <div class="navigation-menu">
+    <app-assignment-nav [assignmentId]="assignmentId"></app-assignment-nav>
+  </div>
+  <div class="assginment-container">
+    <div class="assignment-details">
+      <h1>{{ assignment?.name }}</h1>
+      <p>Due Date: {{ assignment?.dueDate }}</p>
+      <p>Created By: {{ assignment?.createdBy.user.userName }}</p>
+      <p>Description: {{ assignment?.description }}</p>
+      <div class="required words">
+        <ul>
+          <li *ngFor="let requiredWord; in: assignment.reauiredWords">
+            {{ requiredWord }}
+          </li>
+        </ul>
+      </div>
+      <div class="prohibited words">
+        <ul>
+          <li *ngFor="let prohibitedWord; in: assignment.prohibitedWords">
+            {{ prohibitedWord }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

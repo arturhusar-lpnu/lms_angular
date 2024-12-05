@@ -1,0 +1,36 @@
+<header class="bg-gray-800 text-white p-4 shadow-md">
+  <div class="flex justify-between items-center max-w-6xl mx-auto">
+    <div class="flex items-center">
+      <img
+        src="/assets/logo.png"
+        alt="Platform Logo"
+        class="h-12 mr-4"
+        *ngIf="false"
+      />
+      <h1 class="text-xl font-bold">Code Learning Platform</h1>
+    </div>
+    <div *ngIf="isLoggedIn()" class="flex items-center space-x-4">
+      <app-navigation></app-navigation>
+    </div>
+    <div class="flex items-center space-x-4">
+      <div *ngIf="isLoggedIn()" class="text-right">
+        <span class="block text-sm">Welcome, {{ getUserName() }}</span>
+        <span class="block text-xs text-gray-400">({{ getUserRole() }})</span>
+      </div>
+      <button
+        *ngIf="!isLoggedIn()"
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+        (click)="login()"
+      >
+        Login
+      </button>
+      <button
+        *ngIf="isLoggedIn()"
+        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+        (click)="logout()"
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+</header>

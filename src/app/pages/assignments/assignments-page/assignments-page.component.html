@@ -1,1 +1,15 @@
-<p>assignments-page works!</p>
+<div>
+  <ul>
+    <li *ngFor="let assignment of assignments$ | async">
+      <a [routerLink]="['/assignments/', assignment.id]">
+        <app-assignment-box
+          [assignmentName]="assignment.name"
+          [assignedTo]="assignment.assignedTo.name"
+          [dueDate]="assignment.dueDate"
+          [createdBy]="assignment.createdBy.user.userName"
+          (removeAssignment)="removeAssignment(assignment.id)"
+        ></app-assignment-box>
+      </a>
+    </li>
+  </ul>
+</div>

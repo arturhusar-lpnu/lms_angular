@@ -7,11 +7,12 @@ import { Course } from '../../shared/models/course';
 import { Assignment } from '../../shared/models/assignment';
 import { CourseResponse } from './studentSevice';
 import { Submit } from '../../shared/models/submit';
+import { Observable } from 'rxjs';
 
 export interface AssignmentResponse {
   status: string;
   error: any; // change to Error later
-  assignment: Assignment;
+  assignments: Assignment[];
 }
 
 @Injectable({
@@ -19,20 +20,25 @@ export interface AssignmentResponse {
 })
 export class InstructorService {
   private assignmentsApiUrl =
-    'http://localhost:5098//api/instructor-assignments/';
-  private coursesApiUrl = 'http://localhost:5098//api/instructor-courses/';
-  constructor(private http: HttpClient, private instructor: Instructor) {}
+    'https://localhost:7194//api/instructor-assignments/';
+  private coursesApiUrl = 'https://localhost:7194//api/instructor-courses/';
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getCourses(): any {
+    const id = this.authService.getUserId();
     return this.http.get<CourseResponse>(
-      `${this.coursesApiUrl}/instructor/${this.instructor.user.id}`
+      `${this.coursesApiUrl}/instructor/${id}`
+    );
+  }
+  getAssignment(assignmentId: number): Observable<Assignment> {
+    return this.http.get<Assignment>(
+      `${this.assignmentsApiUrl}/assignment/${assignmentId}`
     );
   }
 
   getAssignments(): any {
-    return this.http.get(
-      `${this.assignmentsApiUrl}/${this.instructor.user.id}`
-    );
+    const id = this.authService.getUserId();
+    return this.http.get<AssignmentResponse>(`${this.assignmentsApiUrl}/${id}`);
   }
 
   addAssignment(assignment: Assignment) {
@@ -49,7 +55,11 @@ export class InstructorService {
     );
   }
 
-  removeAssignment(assignmentId: number) {}
+  removeAssignment(assignmentId: number) {
+    return this.http.delete(
+      `${this.assignmentsApiUrl}/assignment/${assignmentId}/remove`
+    );
+  }
 
   getSubmitReview(assignment: Assignment, submit: Submit) {
     return this.http.get(

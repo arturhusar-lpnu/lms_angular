@@ -9,6 +9,7 @@ export class AuthService {
   private token: string | null = null;
   private tokenStorageKey = 'auth_token';
   private userStorageKey = 'user_data';
+  private userData: UserData | null = null;
 
   login(loginData: LoginResponse) {
     const { token, user } = loginData;
@@ -26,30 +27,43 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return !!this.getToken() && !!this.getUserData();
+    return !!this.token;
   }
 
   setToken(token: string): void {
     this.token = token;
-    localStorage.setItem(this.tokenStorageKey, token);
+    //localStorage.setItem(this.tokenStorageKey, token);
   }
 
   getToken(): string | null {
-    return this.token || localStorage.getItem(this.tokenStorageKey);
+    return this.token;
+    //return this.token || localStorage.getItem(this.tokenStorageKey);
   }
 
   clearToken(): void {
     this.token = null;
-    localStorage.removeItem(this.tokenStorageKey);
+    //localStorage.removeItem(this.tokenStorageKey);
+  }
+
+  getUserId(): string | null {
+    const id = this.userData?.id;
+    return id ? id : null;
   }
 
   setUserData(userData: UserData) {
-    localStorage.setItem(this.userStorageKey, JSON.stringify(userData));
+    this.userData = userData;
+    //localStorage.setItem(this.userStorageKey, JSON.stringify(userData));
   }
 
   getUserData(): UserData | null {
-    const data = localStorage.getItem(this.userStorageKey);
-    return data ? JSON.parse(data) : null;
+    //const data = localStorage.getItem(this.userStorageKey);
+    return this.userData ? this.userData : null;
+    //return data ? JSON.parse(data) : null;
+  }
+
+  getUserName(): string | null {
+    const data = this.getUserData();
+    return data ? data.userName : null;
   }
 
   getUserRole(): string | null {
@@ -58,6 +72,7 @@ export class AuthService {
   }
 
   clearUserData() {
-    localStorage.removeItem(this.userStorageKey);
+    this.userData = null;
+    //localStorage.removeItem(this.userStorageKey);
   }
 }

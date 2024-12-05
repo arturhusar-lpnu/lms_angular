@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './authService';
-import { LoginService } from './loginService';
 import { HttpClient } from '@angular/common/http';
 import { Student } from '../../shared/models/student';
 import { Submit } from '../../shared/models/submit';
 import { Course } from '../../shared/models/course';
 import { Review } from '../../shared/models/review';
+import { Assignment } from '../../shared/models/assignment';
+import { Observable } from 'rxjs';
 
 export interface SubmitReviewResponse {
   status: string;
@@ -19,25 +20,39 @@ export interface CourseResponse {
   error: any;
   course: Course;
 }
+export interface AssignmentResponse {
+  assignments: Assignment[];
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentService {
-  private assignmentsApiUrl =
-    'http://localhost:5098//api/student-assignments/assignment/';
-  private coursesApiUrl = 'http://localhost:5098//api/student-courses/';
-  constructor(private http: HttpClient, private student: Student) {}
+  private assignmentsApiUrl = 'https://localhost:7194/api/student-assignments';
+  private coursesApiUrl = 'https://localhost:7194/api/student-courses';
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getCourses(): any {
-    return this.http.get(
-      `${this.coursesApiUrl}/student/${this.student.user.id}`
+    const id = this.authService.getUserId();
+    return this.http.get(`${this.coursesApiUrl}/student/${id}`);
+  }
+
+  getAssignment(assignmentId: number): Observable<Assignment> {
+    return this.http.get<Assignment>(
+      `${this.assignmentsApiUrl}/assignment/${assignmentId}`
+    );
+  }
+
+  getAssignments(): any {
+    const studentId = this.authService.getUserId();
+    return this.http.get<AssignmentResponse>(
+      `${this.assignmentsApiUrl}/assignments/student/${studentId}`
     );
   }
 
   submitAssignment(assignmentId: number, submit: Submit): any {
     return this.http.post<SubmitReviewResponse>(
-      `${this.assignmentsApiUrl}/${assignmentId}/submit-assignment`,
+      `${this.assignmentsApiUrl}/assignment/${assignmentId}/submit-assignment`,
       submit
     );
   }
@@ -55,14 +70,14 @@ export class StudentService {
     );
   }
 
-  getReview(submitId: number): any {
+  getReview(assignmentId: number, submitId: number): any {
     return this.http.get<SubmitReviewResponse>(
-      `${this.assignmentsApiUrl}/assignmentId/submit/${submitId}`
+      `${this.assignmentsApiUrl}/assignment/${assignmentId}/submit/${submitId}`
     );
   }
-  getSubmit(submitId: number): any {
+  getSubmit(assignmentId: number): any {
     return this.http.get<SubmitReviewResponse>( // додумати шо вертає шоб вивести submit дані а не лише id
-      `${this.assignmentsApiUrl}/assignmentId/submit/${submitId}`
+      `${this.assignmentsApiUrl}/assignment/${assignmentId}/submit`
     );
   }
 }

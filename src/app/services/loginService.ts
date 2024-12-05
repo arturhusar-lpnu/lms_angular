@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 export interface LoginCredentials {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -22,7 +22,7 @@ export interface LoginResponse {
   providedIn: 'root',
 })
 export class LoginService {
-  private apiUrl = 'http://localhost:5098//api/auth/';
+  private apiUrl = 'https://localhost:7194/api/auth';
   constructor(private http: HttpClient, private authService: AuthService) {
     this.checkInitialAuthStatus();
   }

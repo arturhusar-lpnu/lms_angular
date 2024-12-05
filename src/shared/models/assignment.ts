@@ -6,7 +6,7 @@ export class Assignment {
   constructor(
     public id: number,
     public name: string,
-    public dueData: Date,
+    public dueDate: Date,
     public course: Course,
     public createdBy: Instructor,
     public assignedTo: Group

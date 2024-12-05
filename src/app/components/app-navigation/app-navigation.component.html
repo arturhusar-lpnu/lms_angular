@@ -1,0 +1,25 @@
+<nav class="header-navigation">
+  <ul>
+    <li>
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Home
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/courses" routerLinkActive="active"> Courses </a>
+    </li>
+
+    <li *ngIf="getUserRole() !== 'Student'">
+      <a routerLink="/students" routerLinkActive="active"> Students </a>
+    </li>
+
+    <li>
+      <a routerLink="/assignments" routerLinkActive="active"> Assignments </a>
+    </li>
+  </ul>
+</nav>

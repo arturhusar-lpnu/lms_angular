@@ -1,0 +1,34 @@
+.header-navigation ul {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.header-navigation ul li a {
+  text-decoration: none;
+  color: #ecf0f1;
+  transition: color 0.3s ease;
+  padding: 0.5rem 1rem;
+}
+
+.header-navigation ul li a:hover {
+  color: #3498db;
+}
+
+.header-navigation ul li a.active {
+  color: #3498db;
+  font-weight: bold;
+  position: relative;
+}
+
+.header-navigation ul li a.active::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #3498db;
+}

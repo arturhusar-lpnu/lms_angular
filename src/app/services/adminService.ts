@@ -12,7 +12,7 @@ import { Submit } from '../../shared/models/submit';
   providedIn: 'root',
 })
 export class AdminService {
-  private adminApiUrl = 'http://localhost:5098//api/administration/';
+  private adminApiUrl = 'https://localhost:7194//api/administration/';
   constructor(
     private http: HttpClient,
     private instructorService: InstructorService
