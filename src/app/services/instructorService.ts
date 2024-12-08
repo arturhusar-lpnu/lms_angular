@@ -4,14 +4,13 @@ import { LoginService } from './loginService';
 import { HttpClient } from '@angular/common/http';
 import { Instructor } from '../../shared/models/instructor';
 import { Course } from '../../shared/models/course';
+import { AssignmentMapService } from './assignmentMapService';
 import { Assignment } from '../../shared/models/assignment';
 import { CourseResponse } from './studentSevice';
 import { Submit } from '../../shared/models/submit';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 export interface AssignmentResponse {
-  status: string;
-  error: any; // change to Error later
   assignments: Assignment[];
 }
 
@@ -20,14 +19,18 @@ export interface AssignmentResponse {
 })
 export class InstructorService {
   private assignmentsApiUrl =
-    'https://localhost:7194//api/instructor-assignments/';
-  private coursesApiUrl = 'https://localhost:7194//api/instructor-courses/';
-  constructor(private http: HttpClient, private authService: AuthService) {}
+    'https://localhost:7194/api/instructor-assignments';
+  private coursesApiUrl = 'https://localhost:7194/api/instructor-courses';
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private assignmentMapService: AssignmentMapService
+  ) {}
 
   getCourses(): any {
     const id = this.authService.getUserId();
-    return this.http.get<CourseResponse>(
-      `${this.coursesApiUrl}/instructor/${id}`
+    return this.http.get<Course[]>(
+      `${this.coursesApiUrl}/instructor/${id}/courses`
     );
   }
   getAssignment(assignmentId: number): Observable<Assignment> {
@@ -36,11 +39,17 @@ export class InstructorService {
     );
   }
 
-  getAssignments(): any {
-    const id = this.authService.getUserId();
-    return this.http.get<AssignmentResponse>(`${this.assignmentsApiUrl}/${id}`);
+  getAssignments(courseId: number): any {
+    return this.http
+      .get<any[]>(`${this.assignmentsApiUrl}/course/${courseId}`)
+      .pipe(
+        map((apiData) => {
+          return apiData.map((assignmentData) =>
+            this.assignmentMapService.mapAssignment(assignmentData)
+          );
+        })
+      );
   }
-
   addAssignment(assignment: Assignment) {
     return this.http.post(
       `${this.assignmentsApiUrl}/add-assignment`,

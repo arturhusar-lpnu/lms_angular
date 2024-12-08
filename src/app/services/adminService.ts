@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { InstructorService } from './instructorService';
 import { UserData } from '../../shared/models/userData';
 import { Observable } from 'rxjs';
+import { Course } from '../../shared/models/course';
 import { Student } from '../../shared/models/student';
 import { Assignment } from '../../shared/models/assignment';
 import { CodeConventionRule } from '../../shared/models/coderule';
@@ -13,6 +14,7 @@ import { Submit } from '../../shared/models/submit';
 })
 export class AdminService {
   private adminApiUrl = 'https://localhost:7194//api/administration/';
+  private courseApitUrl = 'https://localhost:7194/api/courses';
   constructor(
     private http: HttpClient,
     private instructorService: InstructorService
@@ -45,11 +47,12 @@ export class AdminService {
   }
 
   getAdminCourses(): Observable<any> {
-    return this.instructorService.getCourses();
+    return this.http.get<Course>(this.courseApitUrl);
   }
 
   getAdminAssignments(): Observable<Assignment[]> {
-    return this.instructorService.getAssignments();
+    //const course = this.courseService.getSelectedCourse();
+    return this.instructorService.getAssignments(0);
   }
 
   addAdminAssignment(assignment: Assignment): Observable<any> {

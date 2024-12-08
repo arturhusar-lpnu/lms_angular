@@ -1,5 +1,60 @@
-<div class="submit-page">
-  <div class="navigation-menu">
-    <app-assignment-nav [assignmentId]="assignmentId"></app-assignment-nav>
+<div
+  class="submit-page container mx-auto my-6 p-4 bg-gray-100 shadow-lg rounded-lg"
+>
+  <!-- Flex Container -->
+  <div class="flex flex-col lg:flex-row gap-6">
+    <!-- Navigation Menu -->
+    <div class="navigation-menu lg:w-1/4 bg-white p-4 shadow-md rounded-lg">
+      <app-assignment-nav [assignmentId]="assignmentId"></app-assignment-nav>
+    </div>
+
+    <!-- Submit Details -->
+    <div class="submit-container lg:w-3/4 bg-white p-6 shadow-md rounded-lg">
+      <h1 class="text-2xl font-bold text-gray-800 mb-4">Submit Assignment</h1>
+      <p class="text-gray-600 mb-4">
+        Submission for assignment : {{ assignmentId }}
+      </p>
+      <p>Code: {{ submit.code }}</p>
+      <p>
+        Submitted Att: {{ submit.submittedAtt | date : "MMMM d, y, h:mm:ss a" }}
+      </p>
+      <!-- <form>
+        <label
+          for="submissionFile"
+          class="block text-sm font-medium text-gray-700"
+          >Upload File:</label
+        >
+        <input
+          type="file"
+          id="submissionFile"
+          class="mt-2 p-2 border border-gray-300 rounded-md w-full"
+        />
+        <button
+          type="submit"
+          class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        >
+          Submit
+        </button>
+      </form> -->
+      <div class="mt-6 flex gap-4">
+        <button
+          class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-green-600"
+          (click)="submitAgain()"
+        >
+          Submit Again
+        </button>
+        <button
+          class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+          (click)="revertSubmission()"
+        >
+          Revert
+        </button>
+      </div>
+    </div>
   </div>
+  <app-submit-modal
+    [show]="showSubmitModal"
+    (submit)="handleSubmit($event)"
+    (cancel)="handleCancel()"
+  ></app-submit-modal>
 </div>

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Input, Output, EventEmitter } from '@angular/core';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-assignment-box',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './assignment-box.component.html',
   styleUrl: './assignment-box.component.css',
 })

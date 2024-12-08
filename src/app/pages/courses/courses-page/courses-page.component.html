@@ -1,1 +1,19 @@
-<p>courses-page works!</p>
+<div
+  class="courses-page container mx-auto my-12 p-8 bg-gray-100 shadow-lg rounded-lg"
+>
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">Courses</h1>
+
+  <ul class="course-list">
+    <!-- Use async pipe to subscribe to courses$ observable -->
+    <li
+      *ngFor="let course of courses$ | async"
+      class="course-item p-4 bg-white shadow-sm rounded-lg mb-4"
+      (click)="selectCourse(course)"
+    >
+      <p class="text-xl font-semibold text-gray-700">{{ course.courseName }}</p>
+      <p class="text-sm font-semibold text-gray-700">
+        {{ course.description }}
+      </p>
+    </li>
+  </ul>
+</div>

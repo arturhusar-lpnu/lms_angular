@@ -1,16 +1,25 @@
-<div class="bg-purple-500 p-4 rounded-lg shadow-md">
+<div
+  class="bg-blue-400 p-6 rounded-lg shadow-lg w-full max-w-xl mx-auto transition-all duration-300 transform hover:-translate-y-2"
+>
   <div class="flex justify-between items-center">
-    <h3 class="text-white font-bold">{{ assignmentName }}</h3>
-    <button
-      class="bg-white text-purple-500 px-3 py-2 rounded hover:bg-gray-200"
+    <h3 class="text-white font-bold text-xl truncate">{{ assignmentName }}</h3>
+    <!-- <button
+      class="bg-white text-blue-400 px-3 py-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-700"
       (click)="closeAssignment()"
     >
-      x
-    </button>
+      ✕
+    </button> -->
   </div>
-  <div class="mt-4">
-    <p class="text-white">Assigned to: {{ assignedTo }}</p>
-    <p class="text-white">Due Date: {{ dueDate }}</p>
-    <p class="text-white">Created By: {{ createdBy }}</p>
+  <div class="mt-4 text-white space-y-2">
+    <p>
+      Assigned to: <span class="font-medium">{{ assignedTo }}</span>
+    </p>
+    <p>
+      Due Date:
+      <span class="font-medium">{{ dueDate | date : "fullDate" }}</span>
+    </p>
+    <p>
+      Created By: <span class="font-medium">{{ createdBy }}</span>
+    </p>
   </div>
 </div>

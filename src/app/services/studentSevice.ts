@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './authService';
 import { HttpClient } from '@angular/common/http';
-import { Student } from '../../shared/models/student';
 import { Submit } from '../../shared/models/submit';
 import { Course } from '../../shared/models/course';
 import { Review } from '../../shared/models/review';
 import { Assignment } from '../../shared/models/assignment';
-import { Observable } from 'rxjs';
+import { Observable, tap, map } from 'rxjs';
+import { AssignmentMapService } from './assignmentMapService';
 
 export interface SubmitReviewResponse {
   status: string;
@@ -30,7 +30,11 @@ export interface AssignmentResponse {
 export class StudentService {
   private assignmentsApiUrl = 'https://localhost:7194/api/student-assignments';
   private coursesApiUrl = 'https://localhost:7194/api/student-courses';
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private assignmentMapService: AssignmentMapService
+  ) {}
 
   getCourses(): any {
     const id = this.authService.getUserId();
@@ -38,16 +42,31 @@ export class StudentService {
   }
 
   getAssignment(assignmentId: number): Observable<Assignment> {
-    return this.http.get<Assignment>(
-      `${this.assignmentsApiUrl}/assignment/${assignmentId}`
-    );
+    return this.http
+      .get<any>(`${this.assignmentsApiUrl}/assignment/${assignmentId}`)
+      .pipe(
+        map((apiData) => {
+          console.log('GET ASSIGNMENT 111');
+          console.log(this.assignmentMapService.mapAssignment(apiData));
+          return this.assignmentMapService.mapAssignment(apiData);
+        })
+      );
   }
 
   getAssignments(): any {
     const studentId = this.authService.getUserId();
-    return this.http.get<AssignmentResponse>(
-      `${this.assignmentsApiUrl}/assignments/student/${studentId}`
-    );
+    return this.http
+      .get<any[]>(`${this.assignmentsApiUrl}/assignments/student/${studentId}`)
+      .pipe(
+        map((apiData) => {
+          return apiData.map((assignmentData) => {
+            console.log(
+              this.assignmentMapService.mapAssignment(assignmentData)
+            );
+            return this.assignmentMapService.mapAssignment(assignmentData);
+          });
+        })
+      );
   }
 
   submitAssignment(assignmentId: number, submit: Submit): any {
@@ -71,12 +90,12 @@ export class StudentService {
   }
 
   getReview(assignmentId: number, submitId: number): any {
-    return this.http.get<SubmitReviewResponse>(
-      `${this.assignmentsApiUrl}/assignment/${assignmentId}/submit/${submitId}`
+    return this.http.get<Review>(
+      `${this.assignmentsApiUrl}/assignment/${assignmentId}/submit/${submitId}/review`
     );
   }
   getSubmit(assignmentId: number): any {
-    return this.http.get<SubmitReviewResponse>( // додумати шо вертає шоб вивести submit дані а не лише id
+    return this.http.get<Submit>( // додумати шо вертає шоб вивести submit дані а не лише id
       `${this.assignmentsApiUrl}/assignment/${assignmentId}/submit`
     );
   }

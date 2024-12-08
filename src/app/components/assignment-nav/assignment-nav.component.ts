@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AssignmentService } from '../../services/assignmentService';
 @Component({
   selector: 'app-assignment-nav',
-  imports: [NgIf, RouterLink],
+  imports: [NgIf],
   templateUrl: './assignment-nav.component.html',
   styleUrl: './assignment-nav.component.css',
 })
@@ -14,11 +14,17 @@ export class AssignmentNavComponent {
     private assignmentService: AssignmentService,
     private router: Router
   ) {}
-
+  navigateToAssignment() {
+    console.log(this.assignmentId);
+    const assignment = this.assignmentService.getAssignment(this.assignmentId);
+    console.log(assignment);
+    this.router.navigate(['/assignments', assignment.id]);
+  }
   navigateToSubmit() {
     const submit = this.assignmentService.getSubmit(this.assignmentId);
+    console.log(submit);
     this.router.navigate([
-      '/assignment',
+      '/assignments',
       this.assignmentId,
       'submit',
       submit.id,
@@ -27,7 +33,7 @@ export class AssignmentNavComponent {
   navigateToReview() {
     const submit = this.assignmentService.getSubmit(this.assignmentId);
     this.router.navigate([
-      '/assignment',
+      '/assignments',
       this.assignmentId,
       'submit',
       submit.id,

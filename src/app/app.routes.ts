@@ -12,6 +12,7 @@ import { PermissionDeniedPageComponent } from './pages/permission-denied-page/pe
 import { CoursePageComponent } from './pages/course-page/course-page.component';
 import { SubmitPageComponent } from './pages/submit-page/submit-page.component';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
+import { AssignmentPageComponent } from './pages/assignments/assignment-page/assignment-page.component';
 
 export const routes: Routes = [
   {
@@ -41,7 +42,7 @@ export const routes: Routes = [
   },
   {
     path: 'assignments/:assignmentId',
-    component: AssignmentsPageComponent,
+    component: AssignmentPageComponent,
     canActivate: [authGuard],
   },
   {

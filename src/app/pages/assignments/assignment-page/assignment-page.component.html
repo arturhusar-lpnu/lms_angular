@@ -1,27 +1,80 @@
-<div class="assignment-page">
-  <div class="navigation-menu">
-    <app-assignment-nav [assignmentId]="assignmentId"></app-assignment-nav>
-  </div>
-  <div class="assginment-container">
-    <div class="assignment-details">
-      <h1>{{ assignment?.name }}</h1>
-      <p>Due Date: {{ assignment?.dueDate }}</p>
-      <p>Created By: {{ assignment?.createdBy.user.userName }}</p>
-      <p>Description: {{ assignment?.description }}</p>
-      <div class="required words">
-        <ul>
-          <li *ngFor="let requiredWord; in: assignment.reauiredWords">
-            {{ requiredWord }}
-          </li>
-        </ul>
-      </div>
-      <div class="prohibited words">
-        <ul>
-          <li *ngFor="let prohibitedWord; in: assignment.prohibitedWords">
-            {{ prohibitedWord }}
-          </li>
-        </ul>
+<div
+  class="assignment-page container mx-auto my-6 p-4 bg-gray-100 shadow-lg rounded-lg"
+>
+  <!-- Flex Container -->
+  <div class="flex flex-col lg:flex-row gap-6">
+    <!-- Navigation Menu -->
+    <div class="navigation-menu lg:w-1/4 bg-white p-4 shadow-md rounded-lg">
+      <app-assignment-nav [assignmentId]="assignmentId"></app-assignment-nav>
+    </div>
+
+    <!-- Assignment Container -->
+    <div
+      class="assignment-container lg:w-3/4 bg-white p-6 shadow-md rounded-lg"
+    >
+      <!-- Assignment Details -->
+      <div class="assignment-details">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">
+          {{ assignment.title }}
+        </h1>
+        <p class="text-gray-600 mb-2">
+          <span class="font-semibold">Due Date:</span>
+          {{ assignment.dueDate | date : "mediumDate" }}
+        </p>
+        <p class="text-gray-600 mb-2">
+          <span class="font-semibold">Created By:</span>
+          {{ assignment.createdBy.userName }}
+        </p>
+        <p class="text-gray-600 mb-4">
+          <span class="font-semibold">Max Grade:</span>
+          {{ assignment.maxGrade }}
+        </p>
+
+        <!-- Required Words -->
+        <div class="required-words mb-6">
+          <h2 class="text-lg font-semibold text-gray-700 mb-2">
+            Required Words
+          </h2>
+          <ul class="list-disc pl-6">
+            <li
+              *ngFor="let requiredWord of assignment.requiredWords"
+              class="text-gray-600"
+            >
+              {{ requiredWord.value }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Prohibited Words -->
+        <div class="prohibited-words">
+          <h2 class="text-lg font-semibold text-gray-700 mb-2">
+            Prohibited Words
+          </h2>
+          <ul class="list-disc pl-6">
+            <li
+              *ngFor="let prohibitedWord of assignment.prohibitedWords"
+              class="text-gray-600"
+            >
+              {{ prohibitedWord.value }}
+            </li>
+          </ul>
+        </div>
+
+        <div *ngIf="!isSubmitted()" class="mt-6">
+          <button
+            (click)="openSubmitModal()"
+            class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
+            Submit Assignment
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <app-submit-modal
+    [show]="showSubmitModal"
+    (submit)="handleSubmit($event)"
+    (cancel)="closeSubmitModal()"
+  ></app-submit-modal>
 </div>

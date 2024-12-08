@@ -1,0 +1,28 @@
+<div
+  *ngIf="show"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+>
+  <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-lg">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Submit Your Code</h2>
+    <textarea
+      [(ngModel)]="codeInput"
+      class="w-full p-3 border border-gray-300 rounded-md"
+      rows="5"
+      placeholder="Enter your code here..."
+    ></textarea>
+    <div class="mt-4 flex justify-end gap-4">
+      <button
+        class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        (click)="onSubmit()"
+      >
+        Submit
+      </button>
+      <button
+        class="px-6 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

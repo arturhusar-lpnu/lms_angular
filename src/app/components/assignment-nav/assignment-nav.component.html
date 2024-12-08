@@ -1,9 +1,11 @@
-<ul class="nav-list">
-  <li><a [routerLink]="['/assignment', assignmentId]">Assignment</a></li>
-  <li *ngIf="isSubmitted">
-    <a (click)="navigateToSubmit()">Submit</a>
-  </li>
-  <li *ngIf="isSubmitted">
-    <a (click)="navigateToReview()">Review</a>
-  </li>
-</ul>
+<nav class="assignment-navigation">
+  <ul class="nav-list">
+    <li><a (click)="navigateToAssignment()">Assignment</a></li>
+    <li *ngIf="isSubmitted">
+      <a (click)="navigateToSubmit()">Submit</a>
+    </li>
+    <li *ngIf="isSubmitted">
+      <a (click)="navigateToReview()">Review</a>
+    </li>
+  </ul>
+</nav>

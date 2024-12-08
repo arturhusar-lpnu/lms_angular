@@ -4,6 +4,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { Observable, tap } from 'rxjs';
 import { AuthService } from '../../../services/authService';
 import { AdminService } from '../../../services/adminService';
+import { CourseService } from '../../../services/courseService';
 import { InstructorService } from '../../../services/instructorService';
 import { StudentService } from '../../../services/studentSevice';
 import { Assignment } from '../../../../shared/models/assignment';
@@ -11,7 +12,7 @@ import { AssignmentBoxComponent } from '../../../components/assignment-box/assig
 
 @Component({
   selector: 'app-assignments-page',
-  imports: [CommonModule, NgFor, RouterLink, AssignmentBoxComponent],
+  imports: [CommonModule, NgFor, AssignmentBoxComponent],
   templateUrl: './assignments-page.component.html',
   styleUrl: './assignments-page.component.css',
 })
@@ -20,11 +21,17 @@ export class AssignmentsPageComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private adminService: AdminService,
+    private courseService: CourseService,
     private instructorService: InstructorService,
     private studentService: StudentService
   ) {}
 
   public assignments$: Observable<Assignment[]> = null!;
+
+  navigateToAssignment(assignment: Assignment) {
+    console.log('Navigating to assignment:', assignment);
+    this.router.navigate(['/assignments', assignment.id]);
+  }
 
   ngOnInit() {
     this.assignments$ = this.getAssignments();
@@ -35,7 +42,9 @@ export class AssignmentsPageComponent implements OnInit {
     if (role === 'Student') {
       return this.studentService.getAssignments();
     } else {
-      return this.instructorService.getAssignments();
+      const course = this.courseService.getSelectedCourse();
+      // no course selected
+      return this.instructorService.getAssignments(course.id);
     }
   }
 

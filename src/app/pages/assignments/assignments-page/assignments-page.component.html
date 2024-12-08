@@ -1,15 +1,15 @@
-<div>
-  <ul>
-    <li *ngFor="let assignment of assignments$ | async">
-      <a [routerLink]="['/assignments/', assignment.id]">
-        <app-assignment-box
-          [assignmentName]="assignment.name"
-          [assignedTo]="assignment.assignedTo.name"
-          [dueDate]="assignment.dueDate"
-          [createdBy]="assignment.createdBy.user.userName"
-          (removeAssignment)="removeAssignment(assignment.id)"
-        ></app-assignment-box>
-      </a>
+<div class="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
+  <ul class="space-y-6 w-full max-w-2xl">
+    <li *ngFor="let assignment of assignments$ | async" class="w-full">
+      <app-assignment-box
+        class="transition-transform duration-300 hover:scale-105"
+        [assignmentName]="assignment.title"
+        [assignedTo]="assignment.assignedTo.name"
+        [dueDate]="assignment.dueDate"
+        [createdBy]="assignment.createdBy.userName"
+        (removeAssignment)="removeAssignment(assignment.id)"
+        (click)="navigateToAssignment(assignment)"
+      ></app-assignment-box>
     </li>
   </ul>
 </div>

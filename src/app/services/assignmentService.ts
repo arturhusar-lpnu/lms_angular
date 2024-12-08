@@ -25,10 +25,14 @@ export class AssignmentService {
   getAssignment(assignmentId: number): Assignment {
     const userRole = this.getUserRole();
     if (userRole === 'Student') {
+      console.log(assignmentId);
       this.studentService
         .getAssignment(assignmentId)
-        .subscribe((assignment: Assignment) => {
+        .subscribe((assignment: any) => {
+          console.log('Received');
+          console.log(assignment);
           this.assignment = assignment;
+          console.log(this.assignment);
           //this.isSubmitted = this.submission !== null;
         });
     } else {
@@ -48,8 +52,11 @@ export class AssignmentService {
       this.studentService
         .getSubmit(assignmentId)
         .subscribe((submit: Submit) => {
+          console.log('Got a submit');
+          console.log(submit);
           this.submission = submit;
         });
+      console.log(this.submission);
     }
     return this.submission;
   } // write one for instructor 2 and all of them

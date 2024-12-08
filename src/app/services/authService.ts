@@ -7,8 +7,6 @@ import { LoginResponse } from './loginService';
 })
 export class AuthService {
   private token: string | null = null;
-  private tokenStorageKey = 'auth_token';
-  private userStorageKey = 'user_data';
   private userData: UserData | null = null;
 
   login(loginData: LoginResponse) {
@@ -16,7 +14,12 @@ export class AuthService {
 
     this.setToken(token);
 
-    const userData = new UserData(user.id, user.username, user.role);
+    const userData = new UserData(
+      user.id,
+      user.username,
+      user.role,
+      user.isActive
+    );
 
     this.setUserData(userData);
   }

@@ -1,1 +1,18 @@
-<p>home-page works!</p>
+<div
+  class="home-page container mx-auto my-12 p-8 bg-gray-100 shadow-lg rounded-lg text-center"
+>
+  <h1 class="text-4xl font-bold text-gray-800 mb-4">
+    <span *ngIf="isLoggedIn; else notLoggedIn"> Hello, {{ userName }}! </span>
+    <ng-template #notLoggedIn>
+      Please log in to access your account.
+    </ng-template>
+  </h1>
+
+  <button
+    *ngIf="!isLoggedIn"
+    class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+    (click)="navigateToLogin()"
+  >
+    Go to Login
+  </button>
+</div>

@@ -1,0 +1,29 @@
+.courses-page {
+  background-color: #f9fafb; /* Light background for the page */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  text-align: center; /* Center content */
+}
+
+.course-list {
+  list-style: none;
+  padding: 0;
+}
+
+.course-item {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-item:hover {
+  transform: translateY(-5px); /* Lift up effect on hover */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Shadow for hover effect */
+}
+
+.course-item p {
+  margin: 0;
+}
+
+.course-item:hover p {
+  color: #3498db; /* Highlight text color on hover */
+}

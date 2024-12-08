@@ -47,7 +47,7 @@ export class LoginFormComponent {
       firstValueFrom(this.loginService.login(credentials))
         .then((response) => {
           console.log('Login successful', response);
-          this.router.navigate(['/courses']);
+          this.router.navigate(['/']);
         })
         .catch((error) => {
           console.error('Login failed', error);
